@@ -1,6 +1,10 @@
 package com.jikexueyuan.game2048;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -82,8 +86,13 @@ public class GameView extends GridLayout {
 		int cardWidth = (Math.min(w, h) - 10) / 4;
 
 		addCards(cardWidth, cardWidth);
+		
+		startGame();
 	}
-
+	
+	/*
+	 * 添加卡片
+	 */
 	private void addCards(int cardwidth, int cardheight) {
 		Card c;
 
@@ -96,6 +105,40 @@ public class GameView extends GridLayout {
 				cardsMap[x][y] = c;
 			}
 		}
+	}
+	
+	/*
+	 * 添加随机数
+	 */
+	private void addRandomNum() {
+		emptyPopints.clear();// 清空
+
+		for (int y = 0; y < 4; y++) {
+			for (int x = 0; x < 4; x++) {
+				if (cardsMap[x][y].getNum() <= 0) {
+					emptyPopints.add(new Point(x, y));
+				}
+			}
+		}
+		Point p = emptyPopints.remove((int) (Math.random() * emptyPopints
+				.size()));
+		cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
+	}
+	
+	/*
+	 * 启动游戏
+	 */
+	private void startGame() {
+		for (int y = 0; y < 4; y++) {
+			for (int x = 0; x < 4; x++) {
+				cardsMap[x][y].setNum(0);
+			}
+		}
+		
+		addRandomNum();
+		addRandomNum();
+		addRandomNum();
+		addRandomNum();
 	}
 
 	private void swipeLeft() {
@@ -115,4 +158,6 @@ public class GameView extends GridLayout {
 	}
 
 	private Card[][] cardsMap = new Card[4][4];
+
+	private List<Point> emptyPopints = new ArrayList<Point>(); // 空点的集合
 }
