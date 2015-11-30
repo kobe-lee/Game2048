@@ -129,6 +129,9 @@ public class GameView extends GridLayout {
 	 * ∆Ù∂Ø”Œœ∑
 	 */
 	private void startGame() {
+
+		MainActivity.getMainActivity().clearScore();
+
 		for (int y = 0; y < 4; y++) {
 			for (int x = 0; x < 4; x++) {
 				cardsMap[x][y].setNum(0);
@@ -137,15 +140,11 @@ public class GameView extends GridLayout {
 
 		addRandomNum();
 		addRandomNum();
-		addRandomNum();
-		addRandomNum();
-		addRandomNum();
-		addRandomNum();
-		addRandomNum();
-		addRandomNum();
 	}
 
 	private void swipeLeft() {
+		boolean merge = false;
+
 		for (int y = 0; y < 4; y++) {
 			for (int x = 0; x < 4; x++) {
 				for (int x1 = x + 1; x1 < 4; x1++) {
@@ -155,19 +154,30 @@ public class GameView extends GridLayout {
 							cardsMap[x1][y].setNum(0);
 
 							x--;
-							break;
+							merge = true;
+
 						} else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
-							break;
+							MainActivity.getMainActivity().addScore(
+									cardsMap[x][y].getNum());
+							merge = true;
+
 						}
+						break;
 					}
 				}
 			}
 		}
+		if (merge) {
+			addRandomNum();
+		}
 	}
 
 	private void swipeRight() {
+
+		boolean merge = true;
+
 		for (int y = 0; y < 4; y++) {
 			for (int x = 3; x >= 0; x--) {
 				for (int x1 = x - 1; x1 >= 0; x1--) {
@@ -177,19 +187,30 @@ public class GameView extends GridLayout {
 							cardsMap[x1][y].setNum(0);
 
 							x++;
-							break;
+							merge = true;
+
 						} else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x1][y].setNum(0);
-							break;
+							MainActivity.getMainActivity().addScore(
+									cardsMap[x][y].getNum());
+							merge = true;
+
 						}
+						break;
 					}
 				}
 			}
 		}
+		if (merge) {
+			addRandomNum();
+		}
 	}
 
 	private void swipeUp() {
+
+		boolean merge = false;
+
 		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 4; y++) {
 				for (int y1 = y + 1; y1 < 4; y1++) {
@@ -199,19 +220,30 @@ public class GameView extends GridLayout {
 							cardsMap[x][y1].setNum(0);
 
 							y--;
-							break;
+							merge = true;
+
 						} else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							break;
+							MainActivity.getMainActivity().addScore(
+									cardsMap[x][y].getNum());
+							merge = true;
+
 						}
+						break;
 					}
 				}
 			}
 		}
+		if (merge) {
+			addRandomNum();
+		}
 	}
 
 	private void swipeDown() {
+
+		boolean merge = false;
+
 		for (int x = 0; x < 4; x++) {
 			for (int y = 3; y >= 0; y--) {
 				for (int y1 = y - 1; y1 >= 0; y1--) {
@@ -221,15 +253,23 @@ public class GameView extends GridLayout {
 							cardsMap[x][y1].setNum(0);
 
 							y++;
-							break;
+							merge = true;
+
 						} else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
 							cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
 							cardsMap[x][y1].setNum(0);
-							break;
+							MainActivity.getMainActivity().addScore(
+									cardsMap[x][y].getNum());
+							merge = true;
+
 						}
+						break;
 					}
 				}
 			}
+		}
+		if (merge) {
+			addRandomNum();
 		}
 	}
 
